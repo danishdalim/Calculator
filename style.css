@@ -3,6 +3,7 @@
     margin: 0px;
     padding: 0px;
     background-color: white;
+    font-family: 'Roboto', sans-serif;
 }
 
 .title {
@@ -33,6 +34,9 @@
     align-items: center;
     background-color: black;
     border-radius: 10px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
 }
 
 button {
