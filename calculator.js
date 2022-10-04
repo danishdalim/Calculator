@@ -5,13 +5,26 @@ let shouldReset = false;
 
 const display = document.getElementById('display');
 const numberButton = document.querySelectorAll('#number');
+const clearButton = document.querySelector('#clear');
 
-numberButton.forEach((button) => 
-    button.addEventListener('click', () => appendNumber(button.textContent))
-    );
+numberButton.forEach((button) => button.addEventListener('click', () => appendNumber(button.textContent)));
 
-let appendNumber = (number) => {
-    display.textContent += number;
+let clearScreen = () => {
+    display.textContent = '0';
+}
+
+clearButton.addEventListener('click', clearScreen);
+
+let resetScreen = () => {
+    display.textContent = '';
+    shouldReset = false;
+}
+
+let appendNumber = (num) => {
+    if (display.textContent === '0' || shouldReset) {
+        resetScreen();
+    }
+    display.textContent += num;
 };
 
 let add = (num1,num2) => {
@@ -43,12 +56,6 @@ let operate = (operator,num1,num2) => {
         alert('Invalid Operator');
     }
 }
-
-console.log(add(1,2));
-console.log(subtract(1,2));
-console.log(multiply(1,2));
-console.log(divide(1,2));
-
 
 
 
