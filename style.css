@@ -60,6 +60,11 @@ button:hover {
     color: black;
 }
 
+.pressedButton {
+    background-color: #ffffff;
+    color: black;
+}
+
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
