@@ -7,9 +7,13 @@ const display = document.getElementById('display');
 const numberButton = document.querySelectorAll('#number');
 const clearButton = document.querySelector('#clear');
 const operatorButton = document.querySelectorAll('#operator');
+const currentOperator = document.querySelector('#operator');
+const equalButton = document.querySelector('#equal');
 
 numberButton.forEach((button) => button.addEventListener('click', () => appendNumber(button.textContent)));
 operatorButton.forEach((button) => button.addEventListener('click', () => appendOperator(button.textContent)));
+equalButton.addEventListener('click', evaluate);
+
 
 let resetScreen = () => {
     display.textContent = '';
@@ -26,7 +30,23 @@ let appendOperator = (operator) => {
         currentOperation = operator;
         console.log(currentOperation)
     }
+    secondOperand;
+
 }
+
+operatorButton.forEach((button) => button.addEventListener('click',function handleClick(event) {
+    event.target.classList.add('pressedButton');
+}));
+
+let secondOperand = operatorButton.forEach((button) => button.addEventListener('click',function handleClick(event) {
+    resetScreen();
+    display.textContent = `0`;
+    /*document.getElementById('number').onclick = function() {
+    alert("button was clicked");
+    }
+    */
+}));
+
 
 let appendNumber = (num) => {
     if (display.textContent === '0' || shouldReset) {
@@ -34,6 +54,22 @@ let appendNumber = (num) => {
     }
     display.textContent += num;
 };
+
+function evaluate() {
+    operand2 = display.textContent;
+    console.log(operand2);
+    console.log('=');
+    
+    let operator = currentOperation.toString();
+    console.log(`${operand1}${operator}${operand2}=`);
+    if(currentOperation === null){
+        alert('error');
+    } 
+    operate(operator,operand1,operand2);
+    console.log(operate(operator,operand1,operand2));
+    
+    
+}
 
 let add = (num1,num2) => {
     return num1 + num2;
