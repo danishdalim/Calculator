@@ -12,8 +12,18 @@ const equalButton = document.querySelector('#equal');
 
 numberButton.forEach((button) => button.addEventListener('click', () => appendNumber(button.textContent)));
 operatorButton.forEach((button) => button.addEventListener('click', () => appendOperator(button.textContent)));
-equalButton.addEventListener('click', evaluate);
+equalButton.addEventListener('click',() => evaluate(operatorButton.forEach((button) => button.classList.remove('pressedButton'))));
 
+document.addEventListener('keydown', (event) => {
+  // Check if the key pressed was a number
+  if (event.key >= '0' && event.key <= '9') {
+    appendNumber(event.key);
+  }
+  // Check if the key pressed was an operator
+  if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
+    appendOperator(event.key);
+  }
+});
 
 let resetScreen = () => {
     display.textContent = '';
@@ -34,9 +44,16 @@ let appendOperator = (operator) => {
 
 }
 
-operatorButton.forEach((button) => button.addEventListener('click',function handleClick(event) {
-    event.target.classList.add('pressedButton');
-}));
+operatorButton.forEach((button) => {
+    button.addEventListener('click',() => {
+        //Remove the 'pressedButton' class from all operators buttons
+        operatorButton.forEach((button) =>
+        button.classList.remove('pressedButton'));
+        //Add the 'pressedButton' to class to the clicked button
+        button.classList.add('pressedButton');
+
+});
+});
 
 let secondOperand = operatorButton.forEach((button) => button.addEventListener('click',function handleClick(event) {
     resetScreen();
@@ -52,24 +69,18 @@ let appendNumber = (num) => {
     if (display.textContent === '0' || shouldReset) {
         resetScreen();
     }
+    // Check if the number being appended is a decimal point
+  if (num === '.') {
+    // Check if the number being displayed already has a decimal point
+    if (display.textContent.includes('.')) {
+        alert('Only one decimal point is allowed');
+      return;
+    }
+  }
     display.textContent += num;
 };
 
-function evaluate() {
-    operand2 = display.textContent;
-    console.log(operand2);
-    console.log('=');
-    
-    let operator = currentOperation.toString();
-    console.log(`${operand1}${operator}${operand2}=`);
-    if(currentOperation === null){
-        alert('error');
-    } 
-    operate(operator,operand1,operand2);
-    console.log(operate(operator,operand1,operand2));
-    
-    
-}
+
 
 let add = (num1,num2) => {
     return num1 + num2;
@@ -88,17 +99,24 @@ let divide = (num1,num2) => {
 };
 
 let operate = (operator,num1,num2) => {
+    let result;
     if (operator === '+') {
-        add(num1,num2);
+        result = add(num1,num2);
     } else if (operator === '-') {
-        subtract(num1,num2);
+        result = subtract(num1,num2);
     } else if (operator === '*') {
-        multiply(num1,num2);
+        result = multiply(num1,num2);
     } else if (operator === '/') {
-        divide(num1,num2);
+            if (num2 === 0) {
+                alert('Division by zero is not allowed');
+                return;
+                            }
+        result = divide(num1,num2);
     } else {
         alert('Invalid Operator');
     }
+    display.textContent = result;
+    return result;
 }
 
 /*
@@ -106,6 +124,30 @@ let toggledButton = () => {
     document.getElementById("operator").classList.add('pressedButton');
 }
 */
+function evaluate() {
+    operand2 = display.textContent;
+    console.log(operand2);
+    console.log('=');
+    
+    operator = currentOperation.toString();
+    operand1 = Number(operand1);
+    operand2 = Number(operand2);
+
+    console.log(`${operand1}${operator}${operand2}=`);
+    if(currentOperation === null){
+        alert('error');
+    } 
+    operate(operator,operand1,operand2);
+    console.log(operate(operator,operand1,operand2));
+
+
+    console.log(typeof operator);
+    console.log(typeof operand1);
+    console.log(typeof operand2);
+    
+
+    
+}
 
 let clearScreen = () => {
     display.textContent = '0';
